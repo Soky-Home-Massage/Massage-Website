@@ -240,6 +240,8 @@
   .svc .from { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; color: var(--gold-bright); white-space: nowrap; }
   .svc p { color: var(--ivory-muted); margin-top: 6px; }
   .svc .rates { margin-top: 8px; font-size: .92rem; color: var(--ivory); opacity: .85; }
+  .min-note { color: var(--ivory-muted); margin: -4px 0 18px; font-size: 1rem; }
+  .min-note strong { color: var(--gold-bright); font-weight: 500; }
   .dur { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
   .dur-btn { font: inherit; color: var(--ivory); cursor: pointer; padding: 9px 4px; border-radius: 14px; background: var(--glass-deep); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 56px; transition: background-color .2s, border-color .2s, color .2s, transform .15s; }
   .dur-btn b { font-weight: 500; font-size: .95rem; }
@@ -350,24 +352,38 @@
   .svc-total { margin-top: 12px; font-size: .98rem; color: var(--ivory-muted); }
   .svc-total b { font-family: var(--serif); font-size: 1.3rem; color: var(--gold-bright); }
 
-  /* ---------- Why choose us ---------- */
+  /* ---------- Why choose us (carousel) ---------- */
   .why-sub { color: var(--ivory-muted); margin-bottom: 24px; font-size: 1rem; }
-  .why-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; text-align: left; }
-  @media (min-width: 560px) { .why-grid { grid-template-columns: 1fr 1fr; } }
-  .why-card { display: flex; gap: 14px; align-items: flex-start; padding: 18px 16px; border-radius: 18px; background: var(--glass-deep); border: 1px solid var(--line);
-    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
-  .why-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 16px 34px -20px rgba(0,0,0,.9); }
-  .why-icon { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #1B1406; background: linear-gradient(145deg, var(--gold-bright), #B98F45); }
-  .why-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .why-card strong { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 600; line-height: 1.2; }
-  .why-card span { display: block; margin-top: 4px; color: var(--ivory-muted); font-size: .98rem; }
-  .js .why-card { opacity: 0; transform: translateY(18px); }
-  .js .why-card.in { opacity: 1; transform: none; transition: opacity .7s ease var(--d, 0s), transform .7s ease var(--d, 0s), border-color .3s, box-shadow .3s; }
-  .js .why-card.in:hover { transform: translateY(-3px); }
-  @media (prefers-reduced-motion: reduce) { .js .why-card { opacity: 1; transform: none; } }
-
-  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); max-width: min(92vw, 420px); padding: 12px 18px; border-radius: 14px; background: #2A1F12; color: var(--ivory); border: 1px solid var(--gold); font-size: .95rem; text-align: center; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; z-index: 50; box-shadow: 0 14px 34px -14px rgba(0,0,0,.9); }
-  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .why-stage { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid var(--line);
+    background: radial-gradient(120% 90% at 50% 0%, rgba(216,180,106,.2), rgba(22,15,9,.8) 62%);
+    box-shadow: 0 24px 60px -28px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06); touch-action: pan-y; user-select: none; }
+  .why-track { list-style: none; margin: 0; padding: 0; display: flex; transition: transform .8s cubic-bezier(.65, 0, .25, 1); will-change: transform; position: relative; }
+  .why-slide { flex: 0 0 100%; min-width: 0; display: flex; justify-content: center; align-items: center; background: #1C140D; overflow: hidden; }
+  .why-slide img { display: block; width: 100%; height: auto; max-height: 82vh; object-fit: contain; opacity: 0; transform: scale(1.07); }
+  .why-slide.active img { animation: whyZoom 6.5s ease-out both; }
+  @keyframes whyZoom { 0% { opacity: 0; transform: scale(1.07); } 12% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  .why-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(244,239,227,.12); z-index: 2; }
+  .why-progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+  .why-progress i.run { animation: whyBar var(--why-dur, 5s) linear forwards; }
+  .why-stage.paused .why-progress i.run { animation-play-state: paused; }
+  @keyframes whyBar { from { width: 0; } to { width: 100%; } }
+  .why-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 18px; }
+  .why-nav > button { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--glass-deep); border: 1px solid var(--line); color: var(--gold-bright); cursor: pointer; display: grid; place-items: center; transition: background-color .2s, border-color .2s, transform .15s; }
+  .why-nav > button:hover { border-color: var(--gold); background: rgba(216,180,106,.16); }
+  .why-nav > button:active { transform: scale(.94); }
+  .why-nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .why-mid { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+  .why-count { font-family: var(--serif); font-size: 1.25rem; letter-spacing: .12em; }
+  .why-count b { color: var(--gold-bright); font-weight: 600; }
+  .why-dots { display: flex; justify-content: center; flex-wrap: wrap; max-width: 220px; }
+  .why-dots button { width: 26px; height: 30px; background: none; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; }
+  .why-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: rgba(244,239,227,.35); transition: width .35s, background-color .35s; }
+  .why-dots button[aria-current="true"]::before { width: 22px; background: var(--gold); }
+  @media (prefers-reduced-motion: reduce) {
+    .why-track { transition: none; }
+    .why-progress { display: none; }
+    .why-slide img, .why-slide.active img { animation: none !important; opacity: 1 !important; transform: none !important; }
+  }
 
   /* ---------- Promise ---------- */
   .promise { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; text-align: left; }
@@ -517,17 +533,28 @@
     <p class="notice">Open 24 hours a day, 7 days a week. Travel to your address is included, and you pay after your session.</p>
   </section>
 
-  <section class="glass" id="why">
+  <section class="glass" id="why" aria-label="Why choose Soky Home Massage" aria-roledescription="carousel">
     <h2>Why choose Soky Home Massage?</h2>
     <p class="why-sub">Professional massage, delivered where you are</p>
-    <ul class="why-grid">
-      <li class="why-card" style="--d:0.00s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><strong>Open 24/7</strong><span>Book any hour of the day or night. Call, text, WhatsApp or Viber.</span></div></li>
-      <li class="why-card" style="--d:0.08s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 14.2c2.8.2 5 2.4 5 5.8"/></svg></span><div><strong>Male &amp; female therapists</strong><span>Choose the therapist you feel most comfortable with.</span></div></li>
-      <li class="why-card" style="--d:0.16s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span><div><strong>We come to you</strong><span>Condos, hotels and private homes. No travelling, no waiting rooms.</span></div></li>
-      <li class="why-card" style="--d:0.24s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg></span><div><strong>Wide coverage</strong><span>Alabang, Quezon City, Makati, Pasay, Malate, BGC and more.</span></div></li>
-      <li class="why-card" style="--d:0.32s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.600 5.400 5.900.800-4.300 4.100 1 5.900L12 16.400 6.800 19.200l1-5.900L3.500 9.200l5.900-.8z"/></svg></span><div><strong>Professional therapists</strong><span>Trained, courteous and focused on your comfort and relaxation.</span></div></li>
-      <li class="why-card" style="--d:0.40s"><span class="why-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.500"/><path d="M6.500 9.500v.01M17.500 14.500v.01"/></svg></span><div><strong>Clear hotel rates</strong><span>Alabang and QC hotel rate: &#8369;2,000 for 2 hours.</span></div></li>
-    </ul>
+    <div class="why-stage" id="whyStage">
+      <ul class="why-track" id="whyTrack">
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-open-247.jpg" alt="Open 24/7. Book any hour of the day or night by call, text, WhatsApp or Viber." width="900" height="1350" decoding="async"></li>
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-male-female-therapists.jpg" alt="Male and female therapists. Choose the therapist you feel most comfortable with." width="900" height="1350" decoding="async"></li>
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-we-come-to-you.jpg" alt="We come to you: condos, hotels and private homes. No travelling, no waiting rooms." width="900" height="1350" decoding="async"></li>
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-wide-coverage.jpg" alt="Wide coverage across Alabang, Quezon City, Makati, Pasay, Malate, BGC and more." width="900" height="1350" decoding="async"></li>
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-professional-therapists.jpg" alt="Professional therapists, trained, courteous and focused on your comfort and relaxation." width="900" height="1350" decoding="async"></li>
+        <li class="why-slide" role="group" aria-roledescription="slide"><img src="images/why-clear-hotel-rates.jpg" alt="Clear hotel rates: Alabang and Quezon City hotel rate is 2,000 pesos for 2 hours." width="900" height="1350" decoding="async"></li>
+      </ul>
+      <div class="why-progress" aria-hidden="true"><i id="whyBar"></i></div>
+    </div>
+    <div class="why-nav">
+      <button type="button" id="whyPrev" aria-label="Previous reason"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="why-mid">
+        <div class="why-count" id="whyCount" aria-hidden="true"></div>
+        <div class="why-dots" id="whyDots"></div>
+      </div>
+      <button type="button" id="whyNext" aria-label="Next reason"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
   </section>
 
   <section class="glass" id="how">
@@ -542,6 +569,7 @@
 
   <section class="glass" id="services">
     <h2>Treatments</h2>
+    <p class="min-note"><strong>Alabang &bull; Quezon City:</strong> hotel rates for &#8369;2,000 / 2 hours.</p>
     <ul class="svc" id="svcList"></ul>
     <p class="twin">Booking for two? Tell us when you message and we will send two therapists for a shared session.</p>
   </section>
@@ -660,7 +688,9 @@ const ADDONS = [
   { id: "stone", name: "Hot Stone", price: 600, blurb: "Aromatic warm towel treatment", tags: ["Muscle relief", "Aroma"] },
   { id: "ventosa", name: "Ventosa Therapy", price: 500, blurb: "Traditional cupping therapy", tags: ["Pain relief", "Circulation"] }
 ];
+const DEFAULT_MIN = 60; // default session length (minutes)
 const DURATIONS = [ { min: 60, mult: 1 }, { min: 90, mult: 1.4 }, { min: 120, mult: 1.8 } ];
+const durLabel = m => m + " min";
 /* ============================================== */
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -691,7 +721,7 @@ const ICON_VIBER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const msgText = (t, min, ids = []) => {
   const list = ADDONS.filter(a => ids.includes(a.id)), add = list.reduce((n, a) => n + a.price, 0);
   const lines = ["Hello Soky Home Massage, I would like to book a massage.", ""];
-  lines.push("Service Request: " + (t ? `${t.name} (${min} min)` : ""));
+  lines.push("Service Request: " + (t ? `${t.name} (${durLabel(min)})` : ""));
   if (list.length) lines.push("Add-Ons: " + list.map(a => a.name).join(", "));
   let price = "";
   if (t) { const base = priceFor(t.id, min); price = list.length ? `${money(base + add)} (massage ${money(base)} + add-ons ${money(add)})` : money(base); }
@@ -699,22 +729,22 @@ const msgText = (t, min, ids = []) => {
   return lines.join("\n");
 };
 const bookMsg = (t, min, ids) => encodeURIComponent(msgText(t, min, ids));
-$("#fromPrice").textContent = money(Math.min(...TREATMENTS.map(t => priceFor(t.id, 60))));
+$("#fromPrice").textContent = money(Math.min(...TREATMENTS.map(t => t.base)));
 
 $("#svcList").innerHTML = TREATMENTS.map(t => `
   <li class="service-card" data-id="${t.id}">
     <img class="service-image" src="${SERVICE_IMAGES[t.id]}" alt="${t.name}" loading="lazy">
     <div class="service-copy">
-      <div class="svc-top"><h3>${t.name}</h3><span class="from" data-from>${money(priceFor(t.id, 60))}</span></div>
+      <div class="svc-top"><h3>${t.name}</h3><span class="from" data-from>${money(priceFor(t.id, DEFAULT_MIN))}</span></div>
       <p>${t.blurb}</p>
-      <div class="dur" role="group" aria-label="Choose duration for ${t.name}">${DURATIONS.map(d => `<button type="button" class="dur-btn" data-min="${d.min}" aria-pressed="${d.min === 60}"><b>${d.min} min</b><span>${money(priceFor(t.id, d.min))}</span></button>`).join("")}</div>
+      <div class="dur" role="group" aria-label="Choose duration for ${t.name}">${DURATIONS.map(d => `<button type="button" class="dur-btn" data-min="${d.min}" aria-pressed="${d.min === DEFAULT_MIN}"><b>${durLabel(d.min)}</b><span>${money(priceFor(t.id, d.min))}</span></button>`).join("")}</div>
       <details class="addons"><summary>Add-Ons (optional)<em data-addon-count></em></summary>
         <div class="addon-list">${ADDONS.map(a => `<button type="button" class="addon" data-id="${a.id}" aria-pressed="false"><span class="addon-check" aria-hidden="true">&#10003;</span><span class="addon-info"><b>${a.name}</b><small>${a.blurb}</small></span><span class="addon-price">+${money(a.price)}</span></button>`).join("")}</div>
       </details>
       <p class="svc-total" data-total></p>
       <div class="svc-btns">
-        <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t, 60)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
-        <a class="btn btn-viber" href="viber://add?number=${CONFIG.viber}" data-viber="${CONFIG.viber}" data-msg="${msgText(t, 60).replace(/"/g, '&quot;')}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
+        <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t, DEFAULT_MIN)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
+        <a class="btn btn-viber" href="viber://add?number=${CONFIG.viber}" data-viber="${CONFIG.viber}" data-msg="${msgText(t, DEFAULT_MIN).replace(/"/g, '&quot;')}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
       </div>
     </div>
   </li>`).join("");
@@ -722,7 +752,7 @@ $("#svcList").innerHTML = TREATMENTS.map(t => `
 /* Per-card booking: duration + add-ons drive the price and the booking message */
 document.querySelectorAll("#svcList .service-card").forEach(li => {
   const t = TREATMENTS.find(x => x.id === li.dataset.id);
-  let min = 60; const sel = new Set();
+  let min = DEFAULT_MIN; const sel = new Set();
   function refresh() {
     const ids = [...sel], add = ADDONS.filter(a => sel.has(a.id)).reduce((n, a) => n + a.price, 0), base = priceFor(t.id, min);
     li.querySelector("[data-from]").textContent = money(base);
@@ -871,13 +901,57 @@ const TESTIMONIALS = [
   go(0); restart();
 })();
 
-/* Why choose us: reveal on scroll */
-(function whyReveal() {
-  const cards = [...document.querySelectorAll(".why-card")];
-  if (!("IntersectionObserver" in window) || reduceMotion) { cards.forEach(c => c.classList.add("in")); return; }
-  document.documentElement.classList.add("js");
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
-  cards.forEach(c => io.observe(c));
+/* Why choose us carousel */
+(function whyCarousel() {
+  const stage = $("#whyStage"), track = $("#whyTrack"), bar = $("#whyBar"), count = $("#whyCount"), dotsBox = $("#whyDots");
+  const slides = [...track.children], total = slides.length, DURATION = 6500;
+  stage.style.setProperty("--why-dur", DURATION + "ms");
+  slides.forEach((_, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.setAttribute("aria-label", `Show reason ${i + 1}`);
+    b.addEventListener("click", () => { go(i); restart(); });
+    dotsBox.appendChild(b);
+  });
+  const dots = [...dotsBox.children];
+  let cur = -1, timer = null, hovering = false, remaining = DURATION, startedAt = 0;
+  const pad = n => String(n).padStart(2, "0");
+  function go(i) {
+    const next = (i + total) % total;
+    if (cur >= 0) { slides[cur].classList.remove("active"); dots[cur].removeAttribute("aria-current"); }
+    cur = next;
+    track.style.transform = `translateX(${-cur * 100}%)`;
+    slides[cur].classList.add("active"); dots[cur].setAttribute("aria-current", "true");
+    slides.forEach((sl, k) => sl.setAttribute("aria-label", `${k + 1} of ${total}`));
+    count.innerHTML = `<b>${pad(cur + 1)}</b> / ${pad(total)}`;
+  }
+  function runBar(ms) { bar.classList.remove("run"); void bar.offsetWidth; bar.style.animationDuration = ms + "ms"; bar.classList.add("run"); }
+  function schedule() { clearTimeout(timer); startedAt = Date.now(); timer = setTimeout(() => { go(cur + 1); restart(); }, remaining); }
+  function restart() {
+    clearTimeout(timer); remaining = DURATION;
+    if (reduceMotion) return;
+    runBar(DURATION);
+    if (!hovering) schedule(); else stage.classList.add("paused");
+  }
+  function pause() { if (reduceMotion || hovering) return; hovering = true; clearTimeout(timer); remaining = Math.max(300, remaining - (Date.now() - startedAt)); stage.classList.add("paused"); }
+  function resume() { if (!hovering) return; hovering = false; stage.classList.remove("paused"); if (!reduceMotion) schedule(); }
+  $("#whyPrev").addEventListener("click", () => { go(cur - 1); restart(); });
+  $("#whyNext").addEventListener("click", () => { go(cur + 1); restart(); });
+  stage.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") pause(); });
+  stage.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") resume(); });
+  document.addEventListener("visibilitychange", () => { document.hidden ? pause() : resume(); });
+  let x0 = null, y0 = null;
+  stage.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener("touchend", e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { go(cur + (dx < 0 ? 1 : -1)); restart(); }
+  });
+  stage.tabIndex = 0;
+  stage.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { go(cur + 1); restart(); }
+    if (e.key === "ArrowLeft") { go(cur - 1); restart(); }
+  });
+  go(0); restart();
 })();
 
 /* Viber links: phones use viber://add?number=63... (no "+"); Viber Desktop uses viber://chat?number=+63... */
