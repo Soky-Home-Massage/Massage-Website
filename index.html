@@ -115,6 +115,9 @@
     "addressCountry": "PH"
   },
   "knowsAbout": [
+    "Shiatsu massage",
+    "Prenatal massage",
+    "Aromatherapy massage",
     "Home service massage",
     "Mobile massage",
     "Hotel massage",
@@ -216,6 +219,7 @@
   }
   .price-banner strong { font-family: var(--serif); font-size: 1.7rem; font-weight: 600; letter-spacing: 0; }
   .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cta-note { margin-top: 12px; color: var(--ivory-muted); font-size: .92rem; letter-spacing: .02em; }
   .cta .btn-gold { grid-column: 1 / -1; font-size: 1.15rem; min-height: 60px; }
   .notice { margin-top: 20px; padding: 14px; border-radius: 14px; border: 1px dashed var(--line); font-size: .95rem; color: var(--ivory-muted); }
 
@@ -236,6 +240,14 @@
   .svc .from { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; color: var(--gold-bright); white-space: nowrap; }
   .svc p { color: var(--ivory-muted); margin-top: 6px; }
   .svc .rates { margin-top: 8px; font-size: .92rem; color: var(--ivory); opacity: .85; }
+  .dur { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .dur-btn { font: inherit; color: var(--ivory); cursor: pointer; padding: 9px 4px; border-radius: 14px; background: var(--glass-deep); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 56px; transition: background-color .2s, border-color .2s, color .2s, transform .15s; }
+  .dur-btn b { font-weight: 500; font-size: .95rem; }
+  .dur-btn span { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--gold-bright); }
+  .dur-btn:hover { border-color: var(--gold); }
+  .dur-btn:active { transform: scale(.97); }
+  .dur-btn[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #1B1406; }
+  .dur-btn[aria-pressed="true"] span { color: #1B1406; }
   .svc-btns { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
   @media (min-width: 480px) { .svc-btns { grid-template-columns: 1fr 1fr; } }
   .svc-btns .btn { min-height: 48px; padding: 10px 16px; font-size: .98rem; }
@@ -317,6 +329,27 @@
     .tm-progress { display: none; }
   }
 
+  /* ---------- Add-ons inside each card ---------- */
+  .addons { margin-top: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--glass-deep); }
+  .addons summary { cursor: pointer; list-style: none; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 500; min-height: 48px; }
+  .addons summary::-webkit-details-marker { display: none; }
+  .addons summary::after { content: "+"; font-size: 1.4rem; line-height: 1; color: var(--gold-bright); transition: transform .25s; }
+  .addons[open] summary::after { transform: rotate(45deg); }
+  .addons summary em { font-style: normal; margin-left: auto; margin-right: 6px; font-size: .85rem; color: var(--gold-bright); }
+  .addons { overflow: hidden; }
+  .addon-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 0 10px 12px; }
+  .addon { box-sizing: border-box; min-width: 0; font: inherit; color: var(--ivory); width: 100%; text-align: left; cursor: pointer; padding: 10px 12px; border-radius: 12px; background: rgba(244,239,227,.04); border: 1px solid var(--line); display: flex; align-items: center; gap: 12px; min-height: 52px; transition: background-color .2s, border-color .2s; }
+  .addon:hover { border-color: var(--gold); }
+  .addon-check { flex: none; width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid var(--gold); display: grid; place-items: center; color: transparent; font-size: .8rem; font-weight: 700; transition: background-color .2s, color .2s; }
+  .addon-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .addon-info b { font-weight: 500; font-size: .98rem; }
+  .addon-info small { color: var(--ivory-muted); font-size: .8rem; }
+  .addon-price { flex: none; padding-left: 4px; font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--gold-bright); }
+  .addon[aria-pressed="true"] { background: rgba(216,180,106,.16); border-color: var(--gold); }
+  .addon[aria-pressed="true"] .addon-check { background: var(--gold); color: #1B1406; }
+  .svc-total { margin-top: 12px; font-size: .98rem; color: var(--ivory-muted); }
+  .svc-total b { font-family: var(--serif); font-size: 1.3rem; color: var(--gold-bright); }
+
   /* ---------- Why choose us ---------- */
   .why-sub { color: var(--ivory-muted); margin-bottom: 24px; font-size: 1rem; }
   .why-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; text-align: left; }
@@ -332,6 +365,9 @@
   .js .why-card.in { opacity: 1; transform: none; transition: opacity .7s ease var(--d, 0s), transform .7s ease var(--d, 0s), border-color .3s, box-shadow .3s; }
   .js .why-card.in:hover { transform: translateY(-3px); }
   @media (prefers-reduced-motion: reduce) { .js .why-card { opacity: 1; transform: none; } }
+
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); max-width: min(92vw, 420px); padding: 12px 18px; border-radius: 14px; background: #2A1F12; color: var(--ivory); border: 1px solid var(--gold); font-size: .95rem; text-align: center; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; z-index: 50; box-shadow: 0 14px 34px -14px rgba(0,0,0,.9); }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
   /* ---------- Promise ---------- */
   .promise { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; text-align: left; }
@@ -464,27 +500,20 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.920v3a2 2 0 0 1-2.180 2 19.790 19.790 0 0 1-8.630-3.070 19.500 19.500 0 0 1-6-6 19.790 19.790 0 0 1-3.070-8.670A2 2 0 0 1 4.110 2h3a2 2 0 0 1 2 1.720 12.840 12.840 0 0 0 .7 2.810 2 2 0 0 1-.45 2.110L8.090 9.910a16 16 0 0 0 6 6l1.270-1.270a2 2 0 0 1 2.110-.45 12.840 12.840 0 0 0 2.810.7A2 2 0 0 1 22 16.920z"/></svg>
         Call 0963 344 1188
       </a>
-      <a class="btn btn-wa" href="https://wa.me/639633441188?text=Hello%20Soky%20Home%20Massage%2C%20I%20would%20like%20to%20book%20a%20massage.%20My%20location%20is%3A" target="_blank" rel="noopener" aria-label="WhatsApp 0963 344 1188">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.500a8.380 8.380 0 0 1-.9 3.800 8.500 8.500 0 0 1-7.600 4.700 8.380 8.380 0 0 1-3.800-.9L3 21l1.900-5.700a8.380 8.380 0 0 1-.9-3.800 8.500 8.500 0 0 1 4.700-7.600 8.380 8.380 0 0 1 3.800-.9h.5a8.480 8.480 0 0 1 8 8v.5z"/></svg>
-        WhatsApp
-      </a>
-      <a class="btn btn-viber" href="viber://add?number=639633441188" data-viber="639633441188" aria-label="Viber 0963 344 1188">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Viber
-      </a>
       <a class="btn btn-gold" href="tel:09757888895" aria-label="Call Soky Home Massage on 0975 788 8895">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.920v3a2 2 0 0 1-2.180 2 19.790 19.790 0 0 1-8.630-3.070 19.500 19.500 0 0 1-6-6 19.790 19.790 0 0 1-3.070-8.670A2 2 0 0 1 4.110 2h3a2 2 0 0 1 2 1.720 12.840 12.840 0 0 0 .7 2.810 2 2 0 0 1-.45 2.110L8.090 9.910a16 16 0 0 0 6 6l1.270-1.270a2 2 0 0 1 2.110-.45 12.840 12.840 0 0 0 2.810.7A2 2 0 0 1 22 16.920z"/></svg>
         Call 0975 788 8895
       </a>
-      <a class="btn btn-wa" href="https://wa.me/639757888895?text=Hello%20Soky%20Home%20Massage%2C%20I%20would%20like%20to%20book%20a%20massage.%20My%20location%20is%3A" target="_blank" rel="noopener" aria-label="WhatsApp 0975 788 8895">
+      <a class="btn btn-wa" href="https://wa.me/639633441188?text=Hello%20Soky%20Home%20Massage%2C%20I%20would%20like%20to%20book%20a%20massage.%0A%0AService%20Request%3A%20%0APrice%3A%20%0AArea%20Location%3A%20" target="_blank" rel="noopener" aria-label="WhatsApp 0963 344 1188">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.500a8.380 8.380 0 0 1-.9 3.800 8.500 8.500 0 0 1-7.600 4.700 8.380 8.380 0 0 1-3.800-.9L3 21l1.900-5.700a8.380 8.380 0 0 1-.9-3.800 8.500 8.500 0 0 1 4.700-7.600 8.380 8.380 0 0 1 3.800-.9h.5a8.480 8.480 0 0 1 8 8v.5z"/></svg>
         WhatsApp
       </a>
-      <a class="btn btn-viber" href="viber://add?number=639757888895" data-viber="639757888895" aria-label="Viber 0975 788 8895">
+      <a class="btn btn-viber" href="viber://add?number=639757888895" data-viber="639757888895" data-msg="Hello Soky Home Massage, I would like to book a massage.&#10;&#10;Service Request: &#10;Price: &#10;Area Location: " aria-label="Viber 0975 788 8895">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Viber
       </a>
     </div>
+    <p class="cta-note">WhatsApp: 0963 344 1188 &nbsp;|&nbsp; Viber: 0975 788 8895</p>
     <p class="notice">Open 24 hours a day, 7 days a week. Travel to your address is included, and you pay after your session.</p>
   </section>
 
@@ -568,40 +597,68 @@
 /* ============ SETTINGS: edit these ============ */
 const CONFIG = {
   currency: "₱",
-  whatsapp: "639633441188"    // 09633441188 in international format (used for the service Book buttons)
+  whatsapp: "639633441188",   // 09633441188 in international format (used for the service Book on WhatsApp buttons)
+  viber: "639757888895",      // 09757888895 in international format (used for the service Book on Viber buttons)
 };
 const AREAS = ["Alabang", "Quezon City", "Makati", "Pasay", "Malate", "Taguig (BGC)", "Parañaque", "Santa Ana", "San Andres"];
 const TREATMENTS = [
   {
     id: "swedish",
     name: "Swedish Relaxation",
-    base: 900,
+    base: 499,
     blurb: "Gentle, flowing strokes designed for relaxation, easing everyday muscle tension and helping you unwind."
   },
   {
     id: "deep",
     name: "Deep Tissue Massage",
-    base: 1100,
+    base: 499,
     blurb: "Focused, firm massage for tight muscles and stiffness, with attention to areas that need deeper pressure."
   },
   {
     id: "thai",
     name: "Thai Massage",
-    base: 1100,
+    base: 599,
     blurb: "A traditional blend of assisted stretching and pressure techniques to encourage flexibility and balance."
+  },
+  {
+    id: "shiatsu",
+    name: "Shiatsu Massage",
+    base: 499,
+    blurb: "Balance, energy, wellness. Pressure-point work that releases muscle tension, restores energy flow and improves flexibility."
   },
   {
     id: "foot",
     name: "Foot Massage",
-    base: 700,
+    base: 499,
     blurb: "Focused massage for tired feet and lower legs, ideal after a long day of standing, walking or travel."
+  },
+  {
+    id: "aromatherapy",
+    name: "Aromatherapy Massage",
+    base: 499,
+    blurb: "Pure essential oils and a soothing touch to relieve stress and anxiety, balance mood and nourish the skin."
+  },
+  {
+    id: "prenatal",
+    name: "Prenatal Massage",
+    base: 499,
+    blurb: "Safe, gentle and nurturing care that eases back pain and muscle tension and supports circulation. Please tell us how far along you are when booking."
   },
   {
     id: "combination",
     name: "Combination Massage",
-    base: 1200,
+    base: 499,
     blurb: "A customized blend of techniques — Swedish, Thai, Foot, Deep Tissue and more — based on what you want from your session."
   }
+];
+const ADDONS = [
+  { id: "extend", name: "Extended Session", price: 300, blurb: "Extend your massage session for 30 minutes", tags: ["+30 min", "Relaxation"] },
+  { id: "oil", name: "Premium Oil", price: 150, blurb: "Therapeutic-grade oils", tags: ["Lavender", "Eucalyptus", "Arnica"] },
+  { id: "ear", name: "Ear Candling", price: 150, blurb: "Traditional therapy", tags: ["15 min", "Sinus relief"] },
+  { id: "scrub", name: "Body Scrub", price: 500, blurb: "Exfoliating body treatment", tags: ["Coconut", "Lavender", "Citrus"] },
+  { id: "scalp", name: "Scalp Massage", price: 200, blurb: "15-min head & neck", tags: ["Tension relief", "15 min"] },
+  { id: "stone", name: "Hot Stone", price: 600, blurb: "Aromatic warm towel treatment", tags: ["Muscle relief", "Aroma"] },
+  { id: "ventosa", name: "Ventosa Therapy", price: 500, blurb: "Traditional cupping therapy", tags: ["Pain relief", "Circulation"] }
 ];
 const DURATIONS = [ { min: 60, mult: 1 }, { min: 90, mult: 1.4 }, { min: 120, mult: 1.8 } ];
 /* ============================================== */
@@ -611,14 +668,18 @@ const state = { treatment: "swedish", duration: 60, guests: 1 };
 const money = n => CONFIG.currency + Math.round(n).toLocaleString();
 const priceFor = (tid, mins) => {
   const t = TREATMENTS.find(x => x.id === tid), d = DURATIONS.find(x => x.min === mins);
-  return Math.round((t.base * d.mult) / 50) * 50;
+  if (mins === 60) return t.base;                                  // exact 60-min price (e.g. 499)
+  return Math.round((t.base * d.mult) / 50) * 50 - 1;              // 90 / 120 min, ending in 99
 };
 const tName = id => TREATMENTS.find(t => t.id === id).name;
 const SERVICE_IMAGES = {
   swedish: "images/swedish-relaxation.png",
   deep: "images/deep-tissue-massage.png",
   thai: "images/thai-massage.png",
+  shiatsu: "images/shiatsu-massage.png",
   foot: "images/foot-massage.png",
+  aromatherapy: "images/aromatherapy-massage.png",
+  prenatal: "images/prenatal-massage.png",
   combination: "images/combination-massage.png"
 };
 
@@ -627,22 +688,64 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 /* Build lists */
 const ICON_WA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
 const ICON_VIBER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
-const bookMsg = t => encodeURIComponent(`Hello Soky Home Massage, I would like to book: ${t.name}. My location is:`);
+const msgText = (t, min, ids = []) => {
+  const list = ADDONS.filter(a => ids.includes(a.id)), add = list.reduce((n, a) => n + a.price, 0);
+  const lines = ["Hello Soky Home Massage, I would like to book a massage.", ""];
+  lines.push("Service Request: " + (t ? `${t.name} (${min} min)` : ""));
+  if (list.length) lines.push("Add-Ons: " + list.map(a => a.name).join(", "));
+  let price = "";
+  if (t) { const base = priceFor(t.id, min); price = list.length ? `${money(base + add)} (massage ${money(base)} + add-ons ${money(add)})` : money(base); }
+  lines.push("Price: " + price, "Area Location: ");
+  return lines.join("\n");
+};
+const bookMsg = (t, min, ids) => encodeURIComponent(msgText(t, min, ids));
 $("#fromPrice").textContent = money(Math.min(...TREATMENTS.map(t => priceFor(t.id, 60))));
 
 $("#svcList").innerHTML = TREATMENTS.map(t => `
-  <li class="service-card">
+  <li class="service-card" data-id="${t.id}">
     <img class="service-image" src="${SERVICE_IMAGES[t.id]}" alt="${t.name}" loading="lazy">
     <div class="service-copy">
-      <div class="svc-top"><h3>${t.name}</h3><span class="from">${money(priceFor(t.id, 60))}</span></div>
+      <div class="svc-top"><h3>${t.name}</h3><span class="from" data-from>${money(priceFor(t.id, 60))}</span></div>
       <p>${t.blurb}</p>
-      <p class="rates">${DURATIONS.map(d => d.min + " min " + money(priceFor(t.id, d.min))).join("  /  ")}</p>
+      <div class="dur" role="group" aria-label="Choose duration for ${t.name}">${DURATIONS.map(d => `<button type="button" class="dur-btn" data-min="${d.min}" aria-pressed="${d.min === 60}"><b>${d.min} min</b><span>${money(priceFor(t.id, d.min))}</span></button>`).join("")}</div>
+      <details class="addons"><summary>Add-Ons (optional)<em data-addon-count></em></summary>
+        <div class="addon-list">${ADDONS.map(a => `<button type="button" class="addon" data-id="${a.id}" aria-pressed="false"><span class="addon-check" aria-hidden="true">&#10003;</span><span class="addon-info"><b>${a.name}</b><small>${a.blurb}</small></span><span class="addon-price">+${money(a.price)}</span></button>`).join("")}</div>
+      </details>
+      <p class="svc-total" data-total></p>
       <div class="svc-btns">
-        <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
-        <a class="btn btn-viber" href="viber://add?number=${CONFIG.whatsapp}" data-viber="${CONFIG.whatsapp}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
+        <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t, 60)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
+        <a class="btn btn-viber" href="viber://add?number=${CONFIG.viber}" data-viber="${CONFIG.viber}" data-msg="${msgText(t, 60).replace(/"/g, '&quot;')}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
       </div>
     </div>
   </li>`).join("");
+
+/* Per-card booking: duration + add-ons drive the price and the booking message */
+document.querySelectorAll("#svcList .service-card").forEach(li => {
+  const t = TREATMENTS.find(x => x.id === li.dataset.id);
+  let min = 60; const sel = new Set();
+  function refresh() {
+    const ids = [...sel], add = ADDONS.filter(a => sel.has(a.id)).reduce((n, a) => n + a.price, 0), base = priceFor(t.id, min);
+    li.querySelector("[data-from]").textContent = money(base);
+    li.querySelector("[data-addon-count]").textContent = sel.size ? `${sel.size} selected` : "";
+    li.querySelector("[data-total]").innerHTML = sel.size
+      ? `Total: <b>${money(base + add)}</b> (massage ${money(base)} + add-ons ${money(add)})`
+      : `Total: <b>${money(base)}</b>`;
+    li.querySelector(".btn-wa").href = `https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t, min, ids)}`;
+    li.querySelector(".btn-viber").dataset.msg = msgText(t, min, ids);
+  }
+  li.querySelectorAll(".dur-btn").forEach(btn => btn.addEventListener("click", () => {
+    min = +btn.dataset.min;
+    li.querySelectorAll(".dur-btn").forEach(b => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+    refresh();
+  }));
+  li.querySelectorAll(".addon").forEach(btn => btn.addEventListener("click", () => {
+    const id = btn.dataset.id;
+    sel.has(id) ? sel.delete(id) : sel.add(id);
+    btn.setAttribute("aria-pressed", sel.has(id) ? "true" : "false");
+    refresh();
+  }));
+  refresh();
+});
 
 /* Coverage map (Google Maps embed, no API key needed) */
 (function coverageMap() {
@@ -784,6 +887,26 @@ const TESTIMONIALS = [
     const n = a.dataset.viber;
     a.href = mobile ? `viber://add?number=${n}` : `viber://chat?number=%2B${n}`;
   });
+})();
+
+/* Viber cannot pre-fill a message, so copy it to the clipboard for the customer to paste */
+(function viberCopy() {
+  let toast = document.createElement("div");
+  toast.className = "toast"; toast.setAttribute("role", "status");
+  document.body.appendChild(toast);
+  let t;
+  const say = m => { toast.textContent = m; toast.classList.add("show"); clearTimeout(t); t = setTimeout(() => toast.classList.remove("show"), 4500); };
+  const copy = text => {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise((ok, no) => {
+      const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy") ? ok() : no(); } catch (e) { no(); } ta.remove();
+    });
+  };
+  document.querySelectorAll("a[data-viber][data-msg]").forEach(a => a.addEventListener("click", () => {
+    copy(a.dataset.msg).then(() => say("Booking message copied. Paste it in Viber and fill in the details."), () => {});
+  }));
 })();
 
 $("#yr").textContent = new Date().getFullYear();
