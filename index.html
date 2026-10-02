@@ -468,7 +468,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.500a8.380 8.380 0 0 1-.9 3.800 8.500 8.500 0 0 1-7.600 4.700 8.380 8.380 0 0 1-3.800-.9L3 21l1.900-5.700a8.380 8.380 0 0 1-.9-3.800 8.500 8.500 0 0 1 4.700-7.600 8.380 8.380 0 0 1 3.800-.9h.5a8.480 8.480 0 0 1 8 8v.5z"/></svg>
         WhatsApp
       </a>
-      <a class="btn btn-viber" href="viber://chat?number=%2B639633441188" data-viber="639633441188" aria-label="Viber 0963 344 1188">
+      <a class="btn btn-viber" href="viber://add?number=639633441188" data-viber="639633441188" aria-label="Viber 0963 344 1188">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Viber
       </a>
@@ -480,7 +480,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.500a8.380 8.380 0 0 1-.9 3.800 8.500 8.500 0 0 1-7.600 4.700 8.380 8.380 0 0 1-3.800-.9L3 21l1.900-5.700a8.380 8.380 0 0 1-.9-3.800 8.500 8.500 0 0 1 4.700-7.600 8.380 8.380 0 0 1 3.800-.9h.5a8.480 8.480 0 0 1 8 8v.5z"/></svg>
         WhatsApp
       </a>
-      <a class="btn btn-viber" href="viber://chat?number=%2B639757888895" data-viber="639757888895" aria-label="Viber 0975 788 8895">
+      <a class="btn btn-viber" href="viber://add?number=639757888895" data-viber="639757888895" aria-label="Viber 0975 788 8895">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Viber
       </a>
@@ -639,7 +639,7 @@ $("#svcList").innerHTML = TREATMENTS.map(t => `
       <p class="rates">${DURATIONS.map(d => d.min + " min " + money(priceFor(t.id, d.min))).join("  /  ")}</p>
       <div class="svc-btns">
         <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
-        <a class="btn btn-viber" href="viber://chat?number=%2B${CONFIG.whatsapp}" data-viber="${CONFIG.whatsapp}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
+        <a class="btn btn-viber" href="viber://add?number=${CONFIG.whatsapp}" data-viber="${CONFIG.whatsapp}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
       </div>
     </div>
   </li>`).join("");
@@ -777,12 +777,12 @@ const TESTIMONIALS = [
   cards.forEach(c => io.observe(c));
 })();
 
-/* Viber links: phones need the +number, Viber Desktop needs the number without "+". No "draft" parameter (older Viber versions say "please update"). */
+/* Viber links: phones use viber://add?number=63... (no "+"); Viber Desktop uses viber://chat?number=+63... */
 (function viberLinks() {
   const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
   document.querySelectorAll("a[data-viber]").forEach(a => {
     const n = a.dataset.viber;
-    a.href = mobile ? `viber://chat?number=%2B${n}` : `viber://chat?number=${n}`;
+    a.href = mobile ? `viber://add?number=${n}` : `viber://chat?number=%2B${n}`;
   });
 })();
 
