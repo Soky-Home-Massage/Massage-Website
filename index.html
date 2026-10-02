@@ -447,6 +447,11 @@
   footer .contact { margin-top: 8px; color: var(--ivory-muted); }
   footer .contact a { color: var(--gold-bright); text-decoration: none; font-weight: 500; }
   footer .legal { margin-top: 18px; font-size: .82rem; color: var(--ivory-muted); opacity: .85; max-width: 52ch; margin-inline: auto; }
+  /* Footer sits directly on the background (no container box) */
+  footer.glass { background: transparent; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: 8px 10px 28px; margin-bottom: 0; }
+  footer.glass .name, footer.glass .contact, footer.glass .legal { text-shadow: 0 1px 12px rgba(0,0,0,.9); }
+  footer.glass .legal { opacity: 1; color: var(--ivory); }
+
 
 
 /* SOKY SERVICE IMAGE STYLES */
