@@ -211,6 +211,23 @@
   .btn-ghost:hover { border-color: var(--gold); }
   .btn-sm { min-height: 42px; padding: 8px 20px; font-size: .95rem; }
 
+  /* Call section sits directly on the background (no container box) and tucks up under the hero */
+  .hero { padding-bottom: 6px; margin-bottom: 0; }
+  #call.glass { background: transparent; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: 0 4px; margin-top: 0; margin-bottom: 30px; }
+  #call .invite, #call .cta-note { text-shadow: 0 1px 12px rgba(0,0,0,.85); }
+  #call .notice { color: var(--ivory); text-shadow: 0 1px 8px rgba(0,0,0,.85); background: rgba(20,13,8,.35); }
+  #call .price-banner { margin: 18px 0; background: rgba(20,13,8,.55); }
+  #call .invite { margin-top: 6px; }
+
+  /* Slightly smaller hero / intro text */
+  .hero h1 { font-size: clamp(1.95rem, 7.6vw, 3.2rem); }
+  .hero p { font-size: 1.02rem; line-height: 1.4; }
+  .areas { font-size: .82rem; letter-spacing: .04em; line-height: 1.5; }
+  #call .invite { font-size: 1.2rem; line-height: 1.4; }
+  #call .price-banner { font-size: .95rem; }
+  #call .price-banner strong { font-size: 1.45rem; }
+  #call .notice, #call .cta-note { font-size: .88rem; }
+
   /* ---------- Call now ---------- */
   .invite { font-family: var(--serif); font-size: 1.45rem; line-height: 1.35; font-weight: 500; }
   .price-banner {
@@ -268,8 +285,23 @@
   .area-grid button:hover { border-color: var(--gold); }
   .area-grid button[aria-pressed="true"] { background: var(--gold); color: #1B1406; border-color: var(--gold); }
   .map-wrap { margin-top: 20px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 20px 50px -24px rgba(0,0,0,.8); background: var(--glass-deep); }
-  .map-wrap iframe { display: block; width: 100%; height: 340px; border: 0; }
-  @media (min-width: 560px) { .map-wrap iframe { height: 420px; } }
+  #coverageMap { width: 100%; height: 360px; background: #E8E4DA; }
+  @media (min-width: 560px) { #coverageMap { height: 440px; } }
+  .leaflet-container { font: inherit; }
+  .cov-poly { stroke-linejoin: round; stroke-dasharray: 14 9; animation: covMarch 1.2s linear infinite, covPulse 2.4s ease-in-out infinite; }
+  @keyframes covMarch { to { stroke-dashoffset: -23; } }
+  @keyframes covPulse { 0%, 100% { fill-opacity: .10; } 50% { fill-opacity: .26; } }
+  .cov-pulse { background: none; border: 0; }
+  .cov-pulse i { position: relative; display: block; width: 18px; height: 18px; border-radius: 50%; background: #D7263D; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.45); }
+  .cov-pulse i::after { content: ""; position: absolute; inset: -12px; border-radius: 50%; border: 2px solid #D7263D; animation: covRing 1.8s ease-out infinite; }
+  @keyframes covRing { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+  .cov-tip { background: #D7263D; color: #fff; border: 0; border-radius: 99px; padding: 3px 10px; font-weight: 600; font-size: .78rem; box-shadow: 0 2px 8px rgba(0,0,0,.35); }
+  .cov-tip::before { display: none; }
+  .map-label { transition: opacity .3s; }
+  .area-grid button[aria-pressed="true"] { animation: chipPop .45s cubic-bezier(.34, 1.56, .64, 1); }
+  .area-grid button:active { transform: scale(.96); }
+  @keyframes chipPop { 0% { transform: scale(.9); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .cov-poly, .cov-pulse i::after, .area-grid button[aria-pressed="true"] { animation: none !important; } }
   .map-label { margin-top: 12px; color: var(--ivory-muted); font-size: .95rem; }
   .map-label a { color: var(--gold-bright); font-weight: 500; text-decoration: none; }
 
@@ -493,6 +525,7 @@
 }
 
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body>
 
@@ -578,7 +611,7 @@
     <h2>Areas we serve</h2>
     <div class="area-grid" id="areaGrid" role="group" aria-label="Choose an area to view on the map"></div>
     <div class="map-wrap">
-      <iframe id="coverageMap" title="Soky Home Massage coverage area map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div id="coverageMap" role="region" aria-label="Map of the Soky Home Massage coverage area"></div>
     </div>
     <p class="map-label" id="mapLabel"></p>
     <p class="area-note"><strong>Alabang &bull; Quezon City:</strong> hotel rates for ₱2,000 / 2 hours.<br>We go to condos, hotels and private homes. Male &amp; female therapists available. Not on the list? Message us your address and we will confirm coverage.</p>
@@ -621,6 +654,7 @@
   </footer>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* ============ SETTINGS: edit these ============ */
 const CONFIG = {
@@ -777,29 +811,104 @@ document.querySelectorAll("#svcList .service-card").forEach(li => {
   refresh();
 });
 
-/* Coverage map (Google Maps embed, no API key needed) */
+/* Coverage map: Leaflet + OpenStreetMap, real area boundaries drawn in bold red */
 (function coverageMap() {
-  const grid = $("#areaGrid"), frame = $("#coverageMap"), label = $("#mapLabel");
-  const q = place => encodeURIComponent(place + ", Metro Manila, Philippines");
-  const embed = (place, zoom) => `https://www.google.com/maps?q=${q(place)}&z=${zoom}&output=embed`;
-  const link = place => `https://www.google.com/maps/search/?api=1&query=${q(place)}`;
-  const ALL = "Metro Manila";
-  const items = [{ name: "All areas", place: ALL, zoom: 11 }].concat(
-    AREAS.map(a => ({ name: a, place: a.replace(/\s*\(.*\)/, "").replace("Taguig", "BGC Taguig"), zoom: 14 }))
-  );
+  const grid = $("#areaGrid"), box = $("#coverageMap"), label = $("#mapLabel");
+  const gLink = place => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place + ", Metro Manila, Philippines")}`;
+  if (!window.L) { box.innerHTML = ""; label.innerHTML = `Map unavailable. <a href="${gLink("Metro Manila")}" target="_blank" rel="noopener">Open in Google Maps</a>`; return; }
+
+  /* name -> search text, approximate centre [lat, lng], fallback radius (m) */
+  const GEO = {
+    "Alabang":      { q: "Alabang, Muntinlupa, Philippines",            c: [14.4180, 121.0400], r: 2600 },
+    "Quezon City":  { q: "Quezon City, Metro Manila, Philippines",       c: [14.6760, 121.0437], r: 6500 },
+    "Makati":       { q: "Makati, Metro Manila, Philippines",            c: [14.5547, 121.0244], r: 3200 },
+    "Pasay":        { q: "Pasay, Metro Manila, Philippines",             c: [14.5378, 121.0014], r: 3200 },
+    "Malate":       { q: "Malate, Manila, Philippines",                  c: [14.5700, 120.9930], r: 1500 },
+    "Taguig (BGC)": { q: "Bonifacio Global City, Taguig, Philippines",   c: [14.5500, 121.0480], r: 1600 },
+    "Parañaque":    { q: "Parañaque, Metro Manila, Philippines",         c: [14.4793, 121.0198], r: 4200 },
+    "Santa Ana":    { q: "Santa Ana, Manila, Philippines",               c: [14.5810, 121.0110], r: 1600 },
+    "San Andres":   { q: "San Andres Bukid, Manila, Philippines",       c: [14.5720, 121.0000], r: 1500 }
+  };
+  const RED = "#D7263D";
+  const map = L.map(box, { zoomControl: true, scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false, zoomSnap: 0.25 }).setView([14.55, 121.02], 11);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; <a href='https://www.openstreetmap.org/copyright' target='_blank' rel='noopener'>OpenStreetMap</a> contributors", maxZoom: 19
+  }).addTo(map);
+  const layer = L.layerGroup().addTo(map);
+  const motion = !reduceMotion;
+
+  /* geometry cache (memory + localStorage) and a polite 1 request/second queue for Nominatim */
+  const KEY = "soky-geo-v1";
+  let cache = {}; try { cache = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(cache)); } catch (e) {} };
+  const pending = {}; let chain = Promise.resolve();
+  function load(name) {
+    if (cache[name]) return Promise.resolve(cache[name]);
+    if (pending[name]) return pending[name];
+    const g = GEO[name];
+    return pending[name] = chain = chain.then(() => new Promise(r => setTimeout(r, 1100))).then(async () => {
+      try {
+        const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&polygon_geojson=1&polygon_threshold=0.0004&countrycodes=ph&q=" + encodeURIComponent(g.q);
+        const res = await (await fetch(url, { headers: { Accept: "application/json" } })).json();
+        const hit = res && res[0];
+        if (hit && hit.geojson && /Polygon/.test(hit.geojson.type) && Math.abs(hit.lat - g.c[0]) < 0.25 && Math.abs(hit.lon - g.c[1]) < 0.25) {
+          cache[name] = hit.geojson; save(); return hit.geojson;
+        }
+      } catch (e) {}
+      return null;
+    });
+  }
+
+  const style = sel => ({ color: RED, weight: sel ? 5 : 4, opacity: 1, fillColor: RED, fillOpacity: .14, className: "cov-poly" });
+  function draw(name, geom, withTip) {
+    const g = GEO[name]; let shape;
+    if (geom) shape = L.geoJSON(geom, { style: () => style(true) });
+    else shape = L.circle(g.c, { radius: g.r, ...style(true) });
+    shape.addTo(layer);
+    if (withTip) L.tooltip({ permanent: true, direction: "center", className: "cov-tip" }).setContent(name.replace(/\s*\(.*\)/, "")).setLatLng(g.c).addTo(layer);
+    return shape;
+  }
+  const fit = (bounds, pad) => {
+    const o = { padding: [pad, pad], maxZoom: 15 };
+    motion ? map.flyToBounds(bounds, { ...o, duration: 1.3 }) : map.fitBounds(bounds, { ...o, animate: false });
+  };
+
+  const items = [{ name: "All areas" }].concat(Object.keys(GEO).filter(n => AREAS.includes(n)).map(name => ({ name })));
   items.forEach((it, i) => {
     const b = document.createElement("button");
     b.type = "button"; b.textContent = it.name; b.setAttribute("aria-pressed", "false");
     b.addEventListener("click", () => select(i));
     grid.appendChild(b);
   });
+
+  let token = 0;
+  function setLabel(html) { label.style.opacity = 0; setTimeout(() => { label.innerHTML = html; label.style.opacity = 1; }, 150); }
   function select(i) {
-    const it = items[i];
+    const my = ++token, it = items[i];
     [...grid.children].forEach((b, k) => b.setAttribute("aria-pressed", k === i ? "true" : "false"));
-    frame.src = embed(it.place, it.zoom);
-    label.innerHTML = i === 0
-      ? `Showing our Metro Manila coverage. Tap an area to zoom in. <a href="${link(ALL)}" target="_blank" rel="noopener">Open in Google Maps</a>`
-      : `Showing <strong>${it.name}</strong>. <a href="${link(it.place)}" target="_blank" rel="noopener">Open in Google Maps</a>`;
+    layer.clearLayers();
+    if (i === 0) {
+      const all = L.featureGroup();
+      Object.keys(GEO).forEach(n => { all.addLayer(draw(n, cache[n] || null, true)); });
+      fit(all.getBounds(), 24);
+      setLabel(`Showing our full coverage, outlined in red. Tap an area to zoom in. <a href="${gLink("Metro Manila")}" target="_blank" rel="noopener">Open in Google Maps</a>`);
+      Object.keys(GEO).filter(n => !cache[n]).forEach(n => load(n).then(g => {
+        if (g && my === token) { layer.clearLayers(); const a2 = L.featureGroup(); Object.keys(GEO).forEach(m => a2.addLayer(draw(m, cache[m] || null, true))); }
+      }));
+      return;
+    }
+    const name = it.name, g = GEO[name];
+    const circle = draw(name, cache[name] || null, true);
+    L.marker(g.c, { icon: L.divIcon({ className: "cov-pulse", html: "<i></i>", iconSize: [18, 18] }), interactive: false }).addTo(layer);
+    fit(circle.getBounds(), 28);
+    setLabel(`Showing <strong>${name}</strong>, coverage outlined in red. <a href="${gLink(name.replace(/\s*\(.*\)/, ""))}" target="_blank" rel="noopener">Open in Google Maps</a>`);
+    if (!cache[name]) load(name).then(geom => {
+      if (!geom || my !== token) return;
+      layer.clearLayers();
+      const poly = draw(name, geom, true);
+      L.marker(g.c, { icon: L.divIcon({ className: "cov-pulse", html: "<i></i>", iconSize: [18, 18] }), interactive: false }).addTo(layer);
+      fit(poly.getBounds(), 28);
+    });
   }
   select(0);
 })();
