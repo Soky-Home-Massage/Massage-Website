@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soky Home Massage | Mobile massage at your door</title>
+<meta name="description" content="Soky Home Massage brings licensed massage therapists, a professional table and fresh linens to your home, hotel or office, 24/7. Call or message to book.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1C140D;
+    --ivory: #F4EFE3;
+    --ivory-muted: #E0D6C7;
+    --gold: #D8B46A;
+    --gold-bright: #E8C984;
+    --line: rgba(216, 180, 106, .42);
+    --glass: rgba(28, 20, 13, .62);
+    --glass-deep: rgba(22, 15, 9, .72);
+    --field: rgba(255, 255, 255, .08);
+    --error: #FF9C93;
+    --wa: #F1E6D3;
+    --viber: #7A5A3A;
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: "Jost", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --wall: url("images/spa-background.jpg");
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 16px); -webkit-text-size-adjust: 100%; background: var(--bg); }
+  body {
+    margin: 0; color: var(--ivory);
+    font-family: var(--sans); font-size: 1.05rem; line-height: 1.6;
+    font-variant-numeric: lining-nums;
+    display: flex; justify-content: center; overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.05; margin: 0; }
+  p { margin: 0; }
+  a { color: inherit; }
+  svg { max-width: 100%; }
+  :focus-visible { outline: 3px solid var(--gold-bright); outline-offset: 3px; border-radius: 6px; }
+
+  /* ---------- Wallpaper ---------- */
+  .wall { position: fixed; inset: 0; z-index: -2; background: var(--wall) center top / cover no-repeat; }
+  .shade { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: rgba(0, 0, 0, .1); }
+
+  /* ---------- Layout ---------- */
+  .container { width: 100%; max-width: 520px; padding: 28px 20px 60px; text-align: center; }
+  @media (min-width: 768px) { .container { max-width: 760px; padding-top: 48px; } }
+
+  .hero { padding: 34px 10px 38px; margin-bottom: 26px; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+  .mark { width: 150px; height: 150px; display: block; margin: 0 auto; object-fit: contain; }
+  .hero h1 { font-size: clamp(2.15rem, 8.5vw, 3.6rem); margin-top: 18px; white-space: nowrap; letter-spacing: -.02em; text-shadow: 0 2px 24px rgba(0,0,0,.5); }
+  .hero p { margin-top: 10px; font-size: 1.2rem; font-weight: 300; color: var(--ivory); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
+  .areas { margin-top: 16px; font-size: .95rem; letter-spacing: .06em; color: var(--gold-bright); text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 22px;
+    padding: 32px 22px; margin-bottom: 26px;
+    box-shadow: 0 20px 50px -28px rgba(0,0,0,.7);
+  }
+  @media (min-width: 768px) { .glass { padding: 40px 40px; } }
+  .glass h2 { font-size: clamp(2.1rem, 6vw, 2.7rem); margin-bottom: 28px; }
+  .glass h2::after { content: ""; display: block; width: 52px; height: 2px; background: var(--gold); margin: 14px auto 0; }
+  .left { text-align: left; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 54px; padding: 14px 24px; border-radius: 999px;
+    font: inherit; font-weight: 500; font-size: 1.02rem; letter-spacing: .03em;
+    text-decoration: none; cursor: pointer; border: 1.5px solid transparent;
+    transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn svg { width: 22px; height: 22px; flex: none; }
+  .btn-gold { background: #E3C58A; color: #2A1D12; }
+  .btn-gold:hover { background: #EED6A2; }
+  .btn-wa { background: var(--wa); color: #2A1D12; }
+  .btn-wa:hover { background: #FFF6E6; }
+  .btn-viber { background: var(--viber); color: #F6EEDD; border-color: rgba(246, 238, 221, .4); }
+  .btn-viber:hover { background: #8F6B45; }
+  .btn-ghost { background: transparent; color: var(--ivory); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--gold); }
+  .btn-sm { min-height: 42px; padding: 8px 20px; font-size: .95rem; }
+
+  /* ---------- Call now ---------- */
+  .invite { font-family: var(--serif); font-size: 1.45rem; line-height: 1.35; font-weight: 500; }
+  .price-banner {
+    margin: 24px 0; padding: 14px; border-radius: 14px; background: var(--glass-deep);
+    border: 1px solid var(--line); color: var(--gold-bright); font-weight: 500; letter-spacing: .04em;
+  }
+  .price-banner strong { font-family: var(--serif); font-size: 1.7rem; font-weight: 600; letter-spacing: 0; }
+  .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cta .btn-gold { grid-column: 1 / -1; font-size: 1.15rem; min-height: 60px; }
+  .notice { margin-top: 20px; padding: 14px; border-radius: 14px; border: 1px dashed var(--line); font-size: .95rem; color: var(--ivory-muted); }
+
+  /* ---------- Steps ---------- */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; text-align: left; }
+  .steps li { display: flex; gap: 16px; align-items: flex-start; }
+  .num { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: #1B1406; display: grid; place-items: center; font-weight: 600; }
+  .steps strong { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; display: block; line-height: 1.2; }
+  .steps span { color: var(--ivory-muted); font-size: 1rem; }
+
+  /* ---------- Services ---------- */
+  .svc { list-style: none; margin: 0; padding: 0; text-align: left; }
+  .svc li { padding: 22px 0; border-top: 1px solid var(--line); }
+  .svc li:first-child { border-top: 0; padding-top: 0; }
+  .svc li:last-child { padding-bottom: 0; }
+  .svc-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .svc h3 { font-size: 1.7rem; font-weight: 600; }
+  .svc .from { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; color: var(--gold-bright); white-space: nowrap; }
+  .svc p { color: var(--ivory-muted); margin-top: 6px; }
+  .svc .rates { margin-top: 8px; font-size: .92rem; color: var(--ivory); opacity: .85; }
+  .svc-btns { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
+  @media (min-width: 480px) { .svc-btns { grid-template-columns: 1fr 1fr; } }
+  .svc-btns .btn { min-height: 48px; padding: 10px 16px; font-size: .98rem; }
+  .svc-btns .btn svg { width: 20px; height: 20px; }
+  .twin { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--ivory-muted); }
+
+  /* ---------- Areas ---------- */
+  .area-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (min-width: 560px) { .area-grid { grid-template-columns: repeat(4, 1fr); } }
+  .area-grid span { padding: 12px 8px; border-radius: 14px; background: var(--glass-deep); border: 1px solid var(--line); font-weight: 500; }
+  .area-note { margin-top: 20px; color: var(--ivory-muted); font-size: .98rem; }
+
+  /* ---------- Promise ---------- */
+  .promise { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; text-align: left; }
+  .promise li { display: flex; gap: 14px; }
+  .promise svg { flex: none; width: 24px; height: 24px; margin-top: 4px; color: var(--gold); }
+  .promise strong { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; display: block; line-height: 1.2; }
+  .promise span { color: var(--ivory-muted); font-size: 1rem; }
+
+  /* ---------- Gallery ---------- */
+  .gallery { margin-bottom: 26px; }
+  .gallery h2 { font-size: clamp(2.1rem, 6vw, 2.7rem); margin-bottom: 22px; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+  .gallery h2::after { content: ""; display: block; width: 52px; height: 2px; background: var(--gold); margin: 14px auto 0; }
+  .slides { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 20px 50px -24px rgba(0,0,0,.8); }
+  .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
+  .slide.active { opacity: 1; }
+  .slide svg { width: 100%; height: 100%; display: block; }
+  .cap { position: absolute; left: 50%; bottom: 48px; transform: translateX(-50%); white-space: nowrap;
+    background: var(--glass-deep); border: 1px solid var(--line); color: var(--gold-bright);
+    padding: 6px 20px; border-radius: 999px; font-weight: 500; font-size: .98rem; }
+  .dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; }
+  .dots button { width: 32px; height: 32px; background: none; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; }
+  .dots button::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: rgba(244,239,227,.4); transition: background-color .2s, transform .2s; }
+  .dots button[aria-current="true"]::before { background: var(--gold); transform: scale(1.2); }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 12px 10px 0; color: var(--ivory); font-size: .95rem; }
+  .footer-line { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-bottom: 22px; }
+  footer .name { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; }
+  footer .contact { margin-top: 8px; color: var(--ivory-muted); }
+  footer .contact a { color: var(--gold-bright); text-decoration: none; font-weight: 500; }
+  footer .legal { margin-top: 18px; font-size: .82rem; color: var(--ivory-muted); opacity: .85; max-width: 52ch; margin-inline: auto; }
+
+
+/* SOKY SERVICE IMAGE STYLES */
+.service-card img.service-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 16px;
+  margin: 0 0 18px;
+  border: 1px solid rgba(216,180,106,.45);
+  background: rgba(18,12,7,.72);
+  box-shadow: 0 18px 42px rgba(0,0,0,.30);
+  transition: transform .8s cubic-bezier(.2,.75,.25,1),
+              box-shadow .8s ease,
+              filter .8s ease;
+}
+.service-card .service-copy { padding: 0 2px 2px; }
+.service-card h3 { font-size: 1.55rem; }
+
+@keyframes sokyFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sokySoftFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Elegant service-card entrance and hover effects */
+.service-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.2,.75,.25,1),
+    border-color .5s ease,
+    box-shadow .5s ease;
+}
+
+.service-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(216,180,106,.72);
+  box-shadow: 0 24px 55px rgba(0,0,0,.34);
+}
+
+.service-card:hover img.service-image {
+  transform: scale(1.018);
+  box-shadow: 0 22px 48px rgba(0,0,0,.38);
+  filter: saturate(1.04) brightness(1.03);
+}
+
+/* Gentle hero/logo movement */
+.hero .mark {
+  animation: sokySoftFloat 4.5s ease-in-out infinite;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .service-card img.service-image,
+  .hero .mark {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .service-card { opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Wallpaper: spa treatment table photo -->
+<div class="wall" aria-hidden="true"></div>
+<div class="shade" aria-hidden="true"></div>
+
+<div class="container">
+  <header class="hero">
+    <img class="mark" src="images/soky-logo.png" alt="Soky Home Massage logo" width="150" height="150">
+    <h1>Soky Home Massage</h1>
+    <p>Professional massage, delivered to your door</p>
+    <div class="areas">Open 24/7 &bull; Home &bull; Hotel &bull; Office</div>
+  </header>
+
+  <section class="glass" id="call">
+    <p class="invite">Step out of the noise and into stillness. Our therapists bring the spa to your own room, so you can unwind in complete privacy.</p>
+    <div class="price-banner">Sessions from <strong id="fromPrice">&nbsp;</strong> per hour</div>
+    <div class="cta">
+      <a class="btn btn-gold" href="tel:09757888895" aria-label="Call Soky Home Massage on 0975 788 8895">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.920v3a2 2 0 0 1-2.180 2 19.790 19.790 0 0 1-8.630-3.070 19.500 19.500 0 0 1-6-6 19.790 19.790 0 0 1-3.070-8.670A2 2 0 0 1 4.110 2h3a2 2 0 0 1 2 1.720 12.840 12.840 0 0 0 .7 2.810 2 2 0 0 1-.45 2.110L8.090 9.910a16 16 0 0 0 6 6l1.270-1.270a2 2 0 0 1 2.110-.45 12.840 12.840 0 0 0 2.810.7A2 2 0 0 1 22 16.920z"/></svg>
+        Call 0975 788 8895
+      </a>
+      <a class="btn btn-wa" href="https://wa.me/639757888895?text=Hello%20Soky%20Home%20Massage%2C%20I%20would%20like%20to%20book%20a%20massage.%20My%20location%20is%3A" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.500a8.380 8.380 0 0 1-.9 3.800 8.500 8.500 0 0 1-7.600 4.700 8.380 8.380 0 0 1-3.800-.9L3 21l1.900-5.700a8.380 8.380 0 0 1-.9-3.800 8.500 8.500 0 0 1 4.700-7.600 8.380 8.380 0 0 1 3.800-.9h.5a8.480 8.480 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </a>
+      <a class="btn btn-viber" href="viber://chat?number=%2B639757888895">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Viber
+      </a>
+    </div>
+    <p class="notice">Open 24 hours a day, 7 days a week. Travel to your address is included, and you pay after your session.</p>
+  </section>
+
+  <section class="glass" id="how">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><div><strong>Call or message us</strong><span>Tell us your address, the treatment you would like and when you want us to arrive.</span></div></li>
+      <li><span class="num">2</span><div><strong>We confirm</strong><span>We check coverage for your area, match an available therapist and confirm by message.</span></div></li>
+      <li><span class="num">3</span><div><strong>Your therapist arrives</strong><span>They set up the table, linens and music in about 15 minutes. You only need a quiet room.</span></div></li>
+      <li><span class="num">4</span><div><strong>Relax</strong><span>When your session ends we pack everything away. Stay as long as you like.</span></div></li>
+    </ol>
+  </section>
+
+  <section class="glass" id="services">
+    <h2>Treatments</h2>
+    <ul class="svc" id="svcList"></ul>
+    <p class="twin">Booking for two? Tell us when you message and we will send two therapists for a shared session.</p>
+  </section>
+
+  <section class="glass" id="areas">
+    <h2>Areas we serve</h2>
+    <div class="area-grid" id="areaGrid"></div>
+    <p class="area-note">Not on the list? Message us your address and we will confirm coverage.</p>
+  </section>
+
+  <section class="glass" id="promise">
+    <h2>Our promise</h2>
+    <ul class="promise">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><strong>Licensed, ID-checked therapists</strong><span>Respectful professionals focused on your comfort, privacy and safety.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><strong>A complete, clean setup</strong><span>A professional table and fresh sheets and towels for every session.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><strong>Skin-safe oils</strong><span>Unscented options are available. Tell us about any allergies when you book.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><strong>Private by design</strong><span>No waiting rooms. Your session happens in the comfort of your own space.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><strong>Clear prices</strong><span>The rate you see is the rate you pay. Travel to you is included.</span></div></li>
+    </ul>
+  </section>
+
+  <section class="gallery glass" aria-label="Treatment gallery">
+    <h2>Treatment gallery</h2>
+    <div class="slides" id="slides">
+      <div class="slide active" style="background:linear-gradient(160deg,#5A4630,#241A10)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke-linecap="round"><path d="M-10 115C50 65 110 165 200 115S350 65 410 115" stroke="#F4EFE3" stroke-width="2" opacity=".3"/><path d="M-10 150C50 100 110 200 200 150S350 100 410 150" stroke="#D8B46A" stroke-width="3" opacity=".9"/><path d="M-10 185C50 135 110 235 200 185S350 135 410 185" stroke="#F4EFE3" stroke-width="2" opacity=".5"/></g></svg>
+        <div class="cap">Swedish relaxation</div>
+      </div>
+      <div class="slide" style="background:linear-gradient(160deg,#4A3F36,#1C1814)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#F4EFE3"><circle cx="200" cy="130" r="98" opacity=".16"/><circle cx="200" cy="130" r="66" opacity=".32"/><circle cx="200" cy="130" r="36" opacity=".6"/></g><circle cx="200" cy="130" r="11" fill="#D8B46A"/></svg>
+        <div class="cap">Deep tissue</div>
+      </div>
+      <div class="slide" style="background:linear-gradient(160deg,#4A3B1E,#1A1408)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M200 45C200 45 152 108 152 148a48 48 0 0 0 96 0C248 108 200 45 200 45Z" fill="#D8B46A" opacity=".92"/><path d="M104 190C122 148 156 142 172 172 148 198 122 202 104 190Z" fill="#F4EFE3" opacity=".32"/><path d="M296 190C278 148 244 142 228 172 252 198 278 202 296 190Z" fill="#F4EFE3" opacity=".32"/></svg>
+        <div class="cap">Aromatherapy</div>
+      </div>
+      <div class="slide" style="background:linear-gradient(160deg,#3E3A33,#171512)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#F4EFE3" stroke-width="2" stroke-linecap="round" opacity=".4"><path d="M168 118C158 98 178 88 168 66"/><path d="M200 112C190 92 210 82 200 60"/><path d="M232 118C222 98 242 88 232 66"/></g><g fill="#3A342C" stroke="#D8B46A" stroke-opacity=".6" stroke-width="1.5"><ellipse cx="200" cy="205" rx="92" ry="26"/><ellipse cx="204" cy="176" rx="68" ry="21"/><ellipse cx="199" cy="152" rx="46" ry="16"/></g></svg>
+        <div class="cap">Hot stone</div>
+      </div>
+      <div class="slide" style="background:linear-gradient(160deg,#5B4D40,#211A14)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="200" cy="130" r="104" fill="none" stroke="#F4EFE3" opacity=".18"/><circle cx="200" cy="130" r="74" fill="none" stroke="#D8B46A" stroke-width="2" opacity=".85"/><circle cx="200" cy="130" r="26" fill="#D8B46A" opacity=".9"/></svg>
+        <div class="cap">Prenatal</div>
+      </div>
+      <div class="slide" style="background:linear-gradient(160deg,#4D3F2C,#1C150C)">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g transform="translate(200 205)" stroke="#D8B46A" stroke-opacity=".7" stroke-width="1.5"><ellipse cx="0" cy="-58" rx="20" ry="60" transform="rotate(-62)" fill="#F4EFE3" fill-opacity=".1"/><ellipse cx="0" cy="-58" rx="20" ry="60" transform="rotate(62)" fill="#F4EFE3" fill-opacity=".1"/><ellipse cx="0" cy="-58" rx="22" ry="62" transform="rotate(-32)" fill="#F4EFE3" fill-opacity=".16"/><ellipse cx="0" cy="-58" rx="22" ry="62" transform="rotate(32)" fill="#F4EFE3" fill-opacity=".16"/><ellipse cx="0" cy="-62" rx="24" ry="66" fill="#D8B46A" fill-opacity=".6"/></g></svg>
+        <div class="cap">Foot reflexology</div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <footer class="glass">
+    <div class="footer-line"></div>
+    <p class="name">Soky Home Massage</p>
+    <p class="contact">Call or message <a href="tel:09757888895">0975 788 8895</a></p>
+    <p class="legal">&copy; <span id="yr"></span> Soky Home Massage. Massage for relaxation and wellbeing, not a substitute for medical care.</p>
+  </footer>
+</div>
+
+<script>
+/* ============ SETTINGS: edit these ============ */
+const CONFIG = {
+  currency: "₱",
+  whatsapp: "639757888895"    // 09757888895 in international format
+};
+const AREAS = ["Quezon City", "Makati", "Taguig (BGC)", "Pasig", "Mandaluyong", "Manila", "Pasay", "Parañaque"];
+const TREATMENTS = [
+  {
+    id: "swedish",
+    name: "Swedish Relaxation",
+    base: 900,
+    blurb: "Gentle, flowing strokes designed for relaxation, easing everyday muscle tension and helping you unwind."
+  },
+  {
+    id: "deep",
+    name: "Deep Tissue Massage",
+    base: 1100,
+    blurb: "Focused, firm massage for tight muscles and stiffness, with attention to areas that need deeper pressure."
+  },
+  {
+    id: "thai",
+    name: "Thai Massage",
+    base: 1100,
+    blurb: "A traditional blend of assisted stretching and pressure techniques to encourage flexibility and balance."
+  },
+  {
+    id: "foot",
+    name: "Foot Massage",
+    base: 700,
+    blurb: "Focused massage for tired feet and lower legs, ideal after a long day of standing, walking or travel."
+  },
+  {
+    id: "combination",
+    name: "Combination Massage",
+    base: 1200,
+    blurb: "A customized blend of techniques — Swedish, Thai, Foot, Deep Tissue and more — based on what you want from your session."
+  }
+];
+const DURATIONS = [ { min: 60, mult: 1 }, { min: 90, mult: 1.4 }, { min: 120, mult: 1.8 } ];
+/* ============================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const state = { treatment: "swedish", duration: 60, guests: 1 };
+const money = n => CONFIG.currency + Math.round(n).toLocaleString();
+const priceFor = (tid, mins) => {
+  const t = TREATMENTS.find(x => x.id === tid), d = DURATIONS.find(x => x.min === mins);
+  return Math.round((t.base * d.mult) / 50) * 50;
+};
+const tName = id => TREATMENTS.find(t => t.id === id).name;
+const SERVICE_IMAGES = {
+  swedish: "images/swedish-relaxation.png",
+  deep: "images/deep-tissue-massage.png",
+  thai: "images/thai-massage.png",
+  foot: "images/foot-massage.png",
+  combination: "images/combination-massage.png"
+};
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Build lists */
+const ICON_WA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+const ICON_VIBER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+const bookMsg = t => encodeURIComponent(`Hello Soky Home Massage, I would like to book: ${t.name}. My location is:`);
+$("#fromPrice").textContent = money(Math.min(...TREATMENTS.map(t => priceFor(t.id, 60))));
+$("#areaGrid").innerHTML = AREAS.map(a => `<span>${a}</span>`).join("");
+$("#svcList").innerHTML = TREATMENTS.map(t => `
+  <li class="service-card">
+    <img class="service-image" src="${SERVICE_IMAGES[t.id]}" alt="${t.name}" loading="lazy">
+    <div class="service-copy">
+      <div class="svc-top"><h3>${t.name}</h3><span class="from">${money(priceFor(t.id, 60))}</span></div>
+      <p>${t.blurb}</p>
+      <p class="rates">${DURATIONS.map(d => d.min + " min " + money(priceFor(t.id, d.min))).join("  /  ")}</p>
+      <div class="svc-btns">
+        <a class="btn btn-wa" href="https://wa.me/${CONFIG.whatsapp}?text=${bookMsg(t)}" target="_blank" rel="noopener" aria-label="Book ${t.name} on WhatsApp">${ICON_WA}Book on WhatsApp</a>
+        <a class="btn btn-viber" href="viber://chat?number=%2B${CONFIG.whatsapp}&draft=${bookMsg(t)}" aria-label="Book ${t.name} on Viber">${ICON_VIBER}Book on Viber</a>
+      </div>
+    </div>
+  </li>`).join("");
+
+/* Gallery */
+(function gallery() {
+  const slides = [...document.querySelectorAll(".slide")], dotsBox = $("#dots");
+  let cur = 0, timer;
+  slides.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.setAttribute("aria-label", `Show ${s.querySelector(".cap").textContent}`);
+    b.addEventListener("click", () => { show(i); restart(); });
+    dotsBox.appendChild(b);
+  });
+  const dots = [...dotsBox.children];
+  function show(i) {
+    slides[cur].classList.remove("active"); dots[cur].removeAttribute("aria-current");
+    cur = i; slides[cur].classList.add("active"); dots[cur].setAttribute("aria-current", "true");
+  }
+  function restart() { clearInterval(timer); if (!reduceMotion) timer = setInterval(() => show((cur + 1) % slides.length), 4500); }
+  show(0); restart();
+})();
+
+$("#yr").textContent = new Date().getFullYear();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll("#svcList .service-card");
+  if (!cards.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    cards.forEach(card => card.classList.add("is-visible"));
+    return;
+  }
+
+  cards.forEach((card, index) => {
+    card.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  cards.forEach(card => observer.observe(card));
+});
+</script>
+
+</body>
+</html>
